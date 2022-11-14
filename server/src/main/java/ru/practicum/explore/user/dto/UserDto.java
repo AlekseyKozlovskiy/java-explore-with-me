@@ -1,7 +1,10 @@
 package ru.practicum.explore.user.dto;
 
 import com.fasterxml.jackson.annotation.JsonCreator;
-import lombok.*;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Getter;
+import lombok.Setter;
 import lombok.experimental.Accessors;
 
 import javax.validation.Valid;
@@ -25,7 +28,7 @@ public class UserDto {
     private String email;
 
     @JsonCreator
-    public UserDto(){
+    public UserDto() {
 
     }
 }

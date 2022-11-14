@@ -6,7 +6,6 @@ import org.springframework.stereotype.Service;
 import ru.practicum.explore.user.dto.Mapper;
 import ru.practicum.explore.user.dto.UserDto;
 
-import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
 
