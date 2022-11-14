@@ -1,16 +1,12 @@
 package ru.practicum.explore.categories;
 
-import com.fasterxml.jackson.annotation.JsonCreator;
-import lombok.*;
-
-import javax.validation.Valid;
-import javax.validation.constraints.NotBlank;
+import lombok.Data;
 
 @Data
 public class CategoryDto {
     private Integer id;
 
-//    @NotBlank
+    //    @NotBlank
     private String name;
 
 
