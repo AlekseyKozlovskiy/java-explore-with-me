@@ -7,7 +7,6 @@ import ru.practicum.explore.categories.dto.CategoryDto;
 
 @Mapper(componentModel = "spring", unmappedTargetPolicy = ReportingPolicy.IGNORE)
 public interface CategoryMapper {
-    //    @Mapping(target = "id", ignore = true)
     CategoryDto toDto(Category category);
 
     Category toCategory(CategoryDto categoryDto);

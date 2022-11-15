@@ -17,11 +17,17 @@ public interface EventMapper {
 
     Event toEventFromFullDto(EventFullDto eventFullDto);
 
+    @Mapping(target = "category", ignore = true)
+    @Mapping(target = "initiator", ignore = true)
+    Event toEventFromUpdateEventDto(UpdateEventDto updateEventDto);
+
     EventFullDto toEventFullDto(Event event);
 
     @AfterMapping
     default void setLocation(@MappingTarget EventFullDto eventFullDto, Event event) {
-        eventFullDto.setLocation(new Location(event.getLat(), event.getLon()));
+        if (event.getLat() != null && event.getLat() != null) {
+            eventFullDto.setLocation(new Location(event.getLat(), event.getLon()));
+        } else eventFullDto.setLocation(null);
     }
 
     @Mapping(target = "category", ignore = true)

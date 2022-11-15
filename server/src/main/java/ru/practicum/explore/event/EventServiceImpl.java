@@ -1,15 +1,18 @@
 package ru.practicum.explore.event;
 
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 import ru.practicum.explore.categories.CategoryRepository;
 import ru.practicum.explore.event.dto.EventFullDto;
-//import ru.practicum.explore.user.UserMapper;/
 import ru.practicum.explore.event.dto.EventMapper;
 import ru.practicum.explore.event.dto.EventNewDto;
+import ru.practicum.explore.event.dto.UpdateEventDto;
 import ru.practicum.explore.user.UserRepository;
 
 import java.time.format.DateTimeFormatter;
+import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
@@ -22,25 +25,28 @@ public class EventServiceImpl implements EventService {
 
     @Override
     public EventFullDto add(EventNewDto eventNewDto, Long userId) {
-//        System.out.println(eventNewDto);
         Event event = eventMapper.toEventFromNewDto(eventNewDto);
         event.setCategory(categoryRepository.findById(eventNewDto.getCategory()).orElseThrow());
         event.setInitiator(userRepository.findById(userId).orElseThrow());
-
-        System.out.println("__________________" + eventMapper.toEventFromNewDto(eventNewDto));
-        EventFullDto eventFullDto = eventMapper.toEventFullDto(eventRepository.save(event));
-        System.out.println("+++++++++++++++" + eventFullDto);
-
-//        event.setLat(eventNewDto.getLocation().getLat());
-//        event.setLon(eventNewDto.getLocation().getLon());
-
-//        eventRepository.save(event);
-//
-//
-//
-//        EventFullDto eventFullDto = eventMapper.toEventFullDto(event);
-//        eventFullDto.setLocation(new Location(event.lat, event.lon));
-
         return eventMapper.toEventFullDto(eventRepository.save(event));
+    }
+
+    @Override
+    public EventFullDto update(UpdateEventDto updateEventDto, Long userId) {
+        Event event = eventMapper.toEventFromUpdateEventDto(updateEventDto);
+        updateEvent(event, updateEventDto, userId);
+        return eventMapper.toEventFullDto(eventRepository.save(event));
+    }
+
+    @Override
+    public List<EventFullDto> get(Long userId, PageRequest pageRequest) {
+        List<Event> eventsById = eventRepository.findAllByInitiatorId(userId, pageRequest);
+        return eventsById.stream().map(eventMapper::toEventFullDto).collect(Collectors.toList());
+    }
+
+    public void updateEvent(Event event, UpdateEventDto updateEventDto, Long userId) {
+        event.setCategory(categoryRepository.findById(updateEventDto.getCategory()).orElseThrow());
+        event.setState(State.PENDING);
+        event.setInitiator(userRepository.findById(userId).orElseThrow());
     }
 }

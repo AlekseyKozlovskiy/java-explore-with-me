@@ -1,6 +1,6 @@
 package ru.practicum.explore.event;
 
-import lombok.*;
+import lombok.Data;
 import ru.practicum.explore.categories.Category;
 import ru.practicum.explore.user.User;
 
@@ -14,7 +14,7 @@ import java.time.LocalDateTime;
 public class Event {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    Integer id;
+    Long id;
 
     @Column(name = "annotation")
     String annotation;

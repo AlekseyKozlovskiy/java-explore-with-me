@@ -30,7 +30,7 @@ public class CategoryController {
 
     @PatchMapping
     ResponseEntity<CategoryDto> update(@RequestBody CategoryDto categoryDto) {
-//        log.info("EWM-Server: Add new category {}", categoryDto);
+        log.info("EWM-Server: Add new category {}", categoryDto);
         return ResponseEntity.ok(categoryService.update(categoryDto));
     }
 
