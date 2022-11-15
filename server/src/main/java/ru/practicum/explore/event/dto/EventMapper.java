@@ -25,7 +25,7 @@ public interface EventMapper {
 
     @AfterMapping
     default void setLocation(@MappingTarget EventFullDto eventFullDto, Event event) {
-        if (event.getLat() != null && event.getLat() != null) {
+        if (event.getLat() != null && event.getLon() != null) {
             eventFullDto.setLocation(new Location(event.getLat(), event.getLon()));
         } else eventFullDto.setLocation(null);
     }
