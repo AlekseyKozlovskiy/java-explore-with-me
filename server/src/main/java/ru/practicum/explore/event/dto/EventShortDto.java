@@ -3,7 +3,7 @@ package ru.practicum.explore.event.dto;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.Setter;
-import ru.practicum.explore.categories.CategoryDto;
+import ru.practicum.explore.categories.dto.CategoryDto;
 import ru.practicum.explore.user.dto.UserDto;
 
 import javax.validation.Valid;

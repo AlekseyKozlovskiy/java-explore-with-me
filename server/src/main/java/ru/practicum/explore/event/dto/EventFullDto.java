@@ -1,7 +1,7 @@
 package ru.practicum.explore.event.dto;
 
 import lombok.*;
-import ru.practicum.explore.categories.CategoryDto;
+import ru.practicum.explore.categories.dto.CategoryDto;
 import ru.practicum.explore.event.State;
 import ru.practicum.explore.user.dto.UserDto;
 

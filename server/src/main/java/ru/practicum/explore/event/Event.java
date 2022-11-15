@@ -19,8 +19,8 @@ public class Event {
     @Column(name = "annotation")
     String annotation;
 
-    @ManyToOne
     @JoinColumn(name = "category_id")
+    @ManyToOne
     Category category;
 
     @Column(name = "confirmed_requests")
@@ -38,8 +38,8 @@ public class Event {
     @Column(name = "paid")
     Boolean paid;
 
-    @ManyToOne
     @JoinColumn(name = "initiator_id")
+    @ManyToOne
     User initiator;
 
     @Column(name = "participant_limit")
