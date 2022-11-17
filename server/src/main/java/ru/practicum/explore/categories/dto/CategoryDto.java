@@ -9,11 +9,4 @@ public class CategoryDto {
     private String name;
 
 
-    @Override
-    public String toString() {
-        return "CategoryDto{" +
-                "id=" + id +
-                ", name='" + name + '\'' +
-                '}';
-    }
 }

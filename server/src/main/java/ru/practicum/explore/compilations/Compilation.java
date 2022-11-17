@@ -1,15 +1,16 @@
 package ru.practicum.explore.compilations;
 
 import lombok.*;
+import org.hibernate.Hibernate;
+import ru.practicum.explore.event.Event;
 
 import javax.persistence.*;
+import java.util.Objects;
+import java.util.Set;
 
-@Builder(toBuilder = true)
-@Getter
-@Setter
+@Data
+@RequiredArgsConstructor
 @Entity
-@NoArgsConstructor
-@AllArgsConstructor
 @Table(name = "compilations", schema = "ewm")
 public class Compilation {
     @Id
@@ -21,4 +22,23 @@ public class Compilation {
 
     @Column(name = "title")
     String title;
+
+    @ManyToMany
+    @JoinTable(name = "event_compilation",
+            joinColumns = @JoinColumn(name = "compilation_id"),
+            inverseJoinColumns = @JoinColumn(name = "event_id"))
+    Set<Event> events;
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || Hibernate.getClass(this) != Hibernate.getClass(o)) return false;
+        Compilation that = (Compilation) o;
+        return id != null && Objects.equals(id, that.id);
+    }
+
+    @Override
+    public int hashCode() {
+        return getClass().hashCode();
+    }
 }

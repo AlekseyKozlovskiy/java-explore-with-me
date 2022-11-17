@@ -13,4 +13,10 @@ public interface EventService {
     EventFullDto update(UpdateEventDto updateEventDto, Long userId);
 
     List<EventFullDto> get(Long userId, PageRequest pageRequest);
+
+    EventFullDto getEventById(Long userId);
+
+    EventFullDto publishedEvent(Long userId);
+
+
 }

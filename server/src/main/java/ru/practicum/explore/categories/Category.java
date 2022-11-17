@@ -5,13 +5,9 @@ import lombok.*;
 import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
 
-@Builder(toBuilder = true)
-@Getter
-@Setter
 @Entity
-@ToString
+@Data
 @NoArgsConstructor
-@AllArgsConstructor
 @Table(name = "categories", schema = "ewm")
 public class Category {
     @Id

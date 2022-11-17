@@ -8,8 +8,10 @@ import ru.practicum.explore.event.dto.EventFullDto;
 import ru.practicum.explore.event.dto.EventMapper;
 import ru.practicum.explore.event.dto.EventNewDto;
 import ru.practicum.explore.event.dto.UpdateEventDto;
+import ru.practicum.explore.exceptions.IncorrectRequest;
 import ru.practicum.explore.user.UserRepository;
 
+import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -28,6 +30,7 @@ public class EventServiceImpl implements EventService {
         Event event = eventMapper.toEventFromNewDto(eventNewDto);
         event.setCategory(categoryRepository.findById(eventNewDto.getCategory()).orElseThrow());
         event.setInitiator(userRepository.findById(userId).orElseThrow());
+        event.setState(State.PENDING);
         return eventMapper.toEventFullDto(eventRepository.save(event));
     }
 
@@ -48,5 +51,19 @@ public class EventServiceImpl implements EventService {
         event.setCategory(categoryRepository.findById(updateEventDto.getCategory()).orElseThrow());
         event.setState(State.PENDING);
         event.setInitiator(userRepository.findById(userId).orElseThrow());
+    }
+
+    @Override
+    public EventFullDto getEventById(Long id) {
+        return eventMapper.toEventFullDto(eventRepository.findById(id)
+                .orElseThrow(() -> new IncorrectRequest("событие не найдено")));
+    }
+
+    @Override
+    public EventFullDto publishedEvent(Long eventId) {
+        Event event = eventRepository.findById(eventId).orElseThrow(() -> new IncorrectRequest("событие не найдено"));
+        event.setPublishedOn(LocalDateTime.now().plusHours(2));
+        event.setState(State.PUBLISHED);
+        return eventMapper.toEventFullDto(eventRepository.save(event));
     }
 }

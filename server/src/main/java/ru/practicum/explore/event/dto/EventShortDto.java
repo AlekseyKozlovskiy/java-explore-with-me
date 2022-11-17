@@ -15,22 +15,13 @@ import java.time.LocalDateTime;
 @Getter
 public class EventShortDto {
     private Integer id;
-
     private String annotation;
-
     private CategoryDto category;
-
     private Boolean confirmedRequests;
-
     private LocalDateTime eventDate;
-
     private Boolean paid;
-
     private UserDto initiator;
-
     private String title;
-
     private Long views;
-
     private Location location;
 }

@@ -13,31 +13,41 @@ import java.util.List;
 
 @RestController()
 @RequiredArgsConstructor
-@RequestMapping("/users/{userId}/events")
+@RequestMapping
 @Slf4j
 public class EventController {
     private final EventService eventService;
 
-    @PatchMapping
+    @PatchMapping("/users/{userId}/events")
     ResponseEntity<EventFullDto> update(@RequestBody UpdateEventDto updateEventDto,
                                         @PathVariable Long userId) {
         return ResponseEntity.ok(eventService.update(updateEventDto, userId));
     }
 
-    @PostMapping
+    @PostMapping("/users/{userId}/events")
     ResponseEntity<EventFullDto> add(@RequestBody EventNewDto eventNewDto,
                                      @PathVariable(value = "userId") long userId) {
         log.info("EWM-Server: Add new event {}", eventNewDto);
         return ResponseEntity.ok(eventService.add(eventNewDto, userId));
     }
 
-    @GetMapping
+    @GetMapping("/users/{userId}/events")
     ResponseEntity<List<EventFullDto>> get(@PathVariable(value = "userId") Long userId,
                                            @RequestParam(name = "from", defaultValue = "0") Integer from,
                                            @RequestParam(name = "size", defaultValue = "10") Integer size) {
         int page = from / size;
         final PageRequest pageRequest = PageRequest.of(page, size);
         return ResponseEntity.ok(eventService.get(userId, pageRequest));
+    }
+
+    @GetMapping("/events/{id}")
+    ResponseEntity<EventFullDto> getEventById(@PathVariable("id") Long id) {
+        return ResponseEntity.ok(eventService.getEventById(id));
+    }
+
+    @PatchMapping("/admin/events/{eventId}/publish")
+    ResponseEntity<EventFullDto> publishedEvent(@PathVariable("eventId") Long eventId) {
+        return ResponseEntity.ok(eventService.publishedEvent(eventId));
     }
 
 
