@@ -8,8 +8,8 @@ services:
       - "9090:9090"
     environment:
       - SPRING_DATASOURCE_URL=jdbc:postgresql://ewm_stats_db:5432/ewm_stats?user=postgres&password=iamroot
-#    depends_on:
-#      - stats-db
+    depends_on:
+      - stats-db
 
   stats-db:
     image: postgres:14-alpine
