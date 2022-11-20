@@ -4,6 +4,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.http.ResponseEntity;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 import ru.practicum.explore.categories.dto.CategoryDto;
 
@@ -19,10 +20,9 @@ public class CategoryController {
 //    private final UserFein userFein;
 
     @PostMapping("/admin/categories")
-    CategoryDto add(@RequestBody CategoryDto categoryDto) {
+    CategoryDto add(@Validated @RequestBody CategoryDto categoryDto) {
 //        userFein.t();
         CategoryDto categoryDto1 = categoryService.add(categoryDto);
-        System.out.println(categoryDto1.getId() + "новая кат");
         return categoryDto1;
 
     }
@@ -33,7 +33,7 @@ public class CategoryController {
     }
 
     @PatchMapping("/admin/categories")
-    ResponseEntity<CategoryDto> update(@RequestBody CategoryDto categoryDto) {
+    ResponseEntity<CategoryDto> update(@Validated @RequestBody CategoryDto categoryDto) {
         log.info("EWM-Server: Add new category {}", categoryDto);
         return ResponseEntity.ok(categoryService.update(categoryDto));
     }

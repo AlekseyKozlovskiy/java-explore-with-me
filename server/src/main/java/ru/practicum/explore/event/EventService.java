@@ -18,5 +18,14 @@ public interface EventService {
 
     EventFullDto publishedEvent(Long userId);
 
+    EventFullDto setReject(Long eventId);
 
+    List<EventFullDto> getEventsByParams(List<Long> users, List<State> states,
+                                         List<Long> categories, String rangeStart,
+                                         String rangeEnd, PageRequest pageRequest);
+
+    EventFullDto editEvent(Long eventId, EventNewDto eventNewDto);
+
+    List<EventFullDto> getEvents(String text, List<Long> categories, Boolean paid,
+                                 String rangeStart, String rangeEnd, Boolean onlyAvailable, PageRequest pageRequest);
 }

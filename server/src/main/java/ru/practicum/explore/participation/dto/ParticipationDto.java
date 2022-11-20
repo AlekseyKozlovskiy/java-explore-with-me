@@ -10,7 +10,7 @@ public class ParticipationDto {
     Long id;
     LocalDateTime created;
 
-    Long eventId;
+    Long event;
 
     Long requester;
 

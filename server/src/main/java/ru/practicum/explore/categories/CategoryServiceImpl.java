@@ -5,6 +5,7 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 import ru.practicum.explore.categories.dto.CategoryDto;
 import ru.practicum.explore.categories.dto.CategoryMapper;
+import ru.practicum.explore.exceptions.ConflictExceptions;
 import ru.practicum.explore.exceptions.IncorrectRequest;
 
 import javax.transaction.Transactional;
@@ -20,6 +21,9 @@ public class CategoryServiceImpl implements CategoryService {
     @Override
     @Transactional
     public CategoryDto add(CategoryDto categoryDto) {
+        if (categoryRepository.existsByName(categoryDto.getName())) {
+            throw new ConflictExceptions("имя занято");
+        }
         return categoryMapper.toDto(categoryRepository.save(categoryMapper.toCategory(categoryDto)));
     }
 
@@ -33,6 +37,9 @@ public class CategoryServiceImpl implements CategoryService {
     @Override
     @Transactional
     public CategoryDto update(CategoryDto categoryDto) {
+        if (categoryRepository.existsByName(categoryDto.getName())) {
+            throw new ConflictExceptions("имя занято");
+        }
         Category category1 = categoryMapper.toCategory(categoryDto);
         category1.setName(category1.getName());
         return categoryMapper.toDto(categoryRepository.save(category1));

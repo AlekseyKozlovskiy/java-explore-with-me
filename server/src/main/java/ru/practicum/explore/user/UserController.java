@@ -4,8 +4,10 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.http.ResponseEntity;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
-import ru.practicum.explore.event.EventService;
+import ru.practicum.explore.event.dto.EventFullDto;
+import ru.practicum.explore.participation.dto.ParticipationDto;
 import ru.practicum.explore.user.dto.UserDto;
 
 import java.util.List;
@@ -16,10 +18,9 @@ import java.util.List;
 @Slf4j
 public class UserController {
     private final UserService userService;
-    private final EventService eventService;
 
     @PostMapping("/admin/users")
-    ResponseEntity<UserDto> add(@RequestBody UserDto userDto) {
+    ResponseEntity<UserDto> add(@Validated @RequestBody UserDto userDto) {
         log.info("EWM-Server: Add new user {}", userDto);
         return ResponseEntity.ok(userService.add(userDto));
     }
@@ -37,4 +38,50 @@ public class UserController {
     void delete(@PathVariable("userId") Long userId) {
         userService.delete(userId);
     }
+
+    @GetMapping("/users/{userId}/events/{eventId}")
+    ResponseEntity<EventFullDto> getEventByUser(@PathVariable Long eventId,
+                                                @PathVariable Long userId) {
+        return ResponseEntity.ok(userService.getEventByUser(eventId, userId));
+    }
+
+    @GetMapping("/users/{userId}/requests")
+    ResponseEntity<List<ParticipationDto>> getUserRequest(@PathVariable Long userId) {
+        return ResponseEntity.ok(userService.getUserRequest(userId));
+    }
+
+    @GetMapping("/users/{userId}/events/{eventId}/requests")
+    ResponseEntity<List<ParticipationDto>> getParticipationRequestsOfUser(@PathVariable Long userId,
+                                                                          @PathVariable Long eventId) {
+        return ResponseEntity.ok(userService.getParticipationRequestsOfUser(userId, eventId));
+    }
+
+    @PatchMapping("/users/{userId}/events/{eventId}")
+    ResponseEntity<EventFullDto> setRejectByUser(@PathVariable Long eventId,
+                                                 @PathVariable Long userId) {
+        System.out.println(eventId + " " + userId);
+        return ResponseEntity.ok(userService.setRejectByUser(eventId, userId));
+    }
+
+    @PatchMapping("/users/{userId}/requests/{requestId}/cancel")
+    public ParticipationDto cancelRequest(@PathVariable Long userId, @PathVariable Long requestId) {
+        return userService.cancelRequest(userId, requestId);
+    }
+
+    @PatchMapping(path = "/users/{userId}/events/{eventId}/requests/{reqId}/reject")
+    public ParticipationDto rejectRequest(@PathVariable(value = "userId") long userId,
+                                          @PathVariable(value = "eventId") long eventId,
+                                          @PathVariable(value = "reqId") long requestId) {
+        log.info("PRIVATE: User={} reject request={} for event={}", userId, requestId, eventId);
+        return userService.rejectRequest(userId, eventId, requestId);
+    }
+
+    @PatchMapping(path = "/users/{userId}/events/{eventId}/requests/{reqId}/confirm")
+    public ParticipationDto confirmRequest(@PathVariable(value = "userId") long userId,
+                                           @PathVariable(value = "eventId") long eventId,
+                                           @PathVariable(value = "reqId") long requestId) {
+        log.info("PRIVATE: User={} confirm request={} for event={}", userId, requestId, eventId);
+        return userService.confirmRequest(userId, eventId, requestId);
+    }
+
 }

@@ -23,6 +23,7 @@ public interface EventMapper {
 
     EventFullDto toEventFullDto(Event event);
 
+
     @AfterMapping
     default void setLocation(@MappingTarget EventFullDto eventFullDto, Event event) {
         if (event.getLat() != null && event.getLon() != null) {
@@ -54,4 +55,5 @@ public interface EventMapper {
             return LocalDateTime.parse(date, formatter);
         }
     }
+
 }

@@ -3,6 +3,7 @@ package ru.practicum.explore.compilations;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.http.ResponseEntity;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 import ru.practicum.explore.compilations.dto.CompilationDto;
 import ru.practicum.explore.compilations.dto.NewDto;
@@ -15,7 +16,7 @@ public class CompilationController {
     private final CompilationService compilationService;
 
     @PostMapping("/admin/compilations")
-    public ResponseEntity<NewDto> addNewCompilation(@RequestBody CompilationDto newDto) {
+    public ResponseEntity<NewDto> addNewCompilation(@Validated @RequestBody CompilationDto newDto) {
         return ResponseEntity.ok(compilationService.createCompilation(newDto));
     }
 
