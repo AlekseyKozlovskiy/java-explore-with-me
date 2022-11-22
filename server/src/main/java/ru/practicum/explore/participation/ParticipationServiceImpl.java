@@ -31,10 +31,6 @@ public class ParticipationServiceImpl implements ParticipationService {
         if (request != null) {
             throw new IncorrectRequest("Request already exists!");
         }
-//        if (event.getInitiator().getId().equals(userId) || /*!event.getState().equals(EventState.PUBLISHED)
-//                ||*/ (event.getParticipantLimit() > 0 && event.getConfirmedRequests() != null)) {
-//            throw new IncorrectRequest("Bad request!!");
-//        }
         Participation participation = new Participation();
         participation.setRequester(user);
         participation.setCreated(LocalDateTime.now());

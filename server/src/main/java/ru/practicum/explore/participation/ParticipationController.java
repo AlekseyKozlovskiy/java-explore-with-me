@@ -16,7 +16,6 @@ public class ParticipationController {
     @PostMapping("/users/{userId}/requests")
     ResponseEntity<ParticipationDto> add(@PathVariable(value = "userId") Long userId,
                                          @RequestParam(name = "eventId") Long eventId) {
-        System.out.println(eventId);
         return ResponseEntity.ok(participationService.add(userId, eventId));
     }
 }

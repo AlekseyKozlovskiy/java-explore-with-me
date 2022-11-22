@@ -10,7 +10,9 @@ import org.springframework.web.bind.annotation.*;
 import ru.practicum.explore.event.dto.EventFullDto;
 import ru.practicum.explore.event.dto.EventNewDto;
 import ru.practicum.explore.event.dto.UpdateEventDto;
+import ru.practicum.explore.user.UserFein;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.validation.constraints.Positive;
 import javax.validation.constraints.PositiveOrZero;
 import java.util.List;
@@ -21,6 +23,8 @@ import java.util.List;
 @Slf4j
 public class EventController {
     private final EventService eventService;
+
+    private final UserFein userFein;
 
     @PatchMapping("/users/{userId}/events")
     ResponseEntity<EventFullDto> update(@Validated @RequestBody UpdateEventDto updateEventDto,
@@ -90,8 +94,12 @@ public class EventController {
             @RequestParam(required = false, defaultValue = "false") Boolean onlyAvailable,
             @RequestParam(required = false, defaultValue = "") String sort,
             @PositiveOrZero @RequestParam(name = "from", required = false, defaultValue = "0") Integer from,
-            @Positive @RequestParam(name = "size", required = false, defaultValue = "10") Integer size
-    ) {
+            @Positive @RequestParam(name = "size", required = false, defaultValue = "10") Integer size,
+            HttpServletRequest request) {
+//        userFein.rr();
+        userFein.addToStat(UserFein.t(request));
+//        userFein.addToStat("Server", URI.create(request.getRequestURI()), request.getRemoteAddr(), LocalDateTime.now().toString());
+
         int page = from / size;
 
         Sort sorting = null;

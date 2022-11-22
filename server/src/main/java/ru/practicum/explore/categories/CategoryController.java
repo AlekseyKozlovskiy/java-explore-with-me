@@ -7,9 +7,9 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 import ru.practicum.explore.categories.dto.CategoryDto;
+import ru.practicum.explore.user.UserFein;
 
 import java.util.List;
-//import ru.practicum.explore.user.UserFein;
 
 @RestController()
 @RequiredArgsConstructor
@@ -17,7 +17,7 @@ import java.util.List;
 @Slf4j
 public class CategoryController {
     private final CategoryService categoryService;
-//    private final UserFein userFein;
+    private final UserFein userFein;
 
     @PostMapping("/admin/categories")
     CategoryDto add(@Validated @RequestBody CategoryDto categoryDto) {
