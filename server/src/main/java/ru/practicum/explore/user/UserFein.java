@@ -9,7 +9,7 @@ import javax.servlet.http.HttpServletRequest;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 
-@FeignClient(name = "kjk", url = "http://localhost:9090")
+@FeignClient(name = "kjk", url = "http://ewm-stats:9090")
 public interface UserFein {
     DateTimeFormatter FORMATTER = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
 
