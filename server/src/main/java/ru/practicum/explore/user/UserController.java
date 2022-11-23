@@ -29,6 +29,7 @@ public class UserController {
     ResponseEntity<List<UserDto>> get(@RequestParam(name = "ids") List<Long> ids,
                                       @RequestParam(name = "from", defaultValue = "0") Integer from,
                                       @RequestParam(name = "size", defaultValue = "10") Integer size) {
+        log.info("EWM-Server: get users {}", ids);
         int page = from / size;
         final PageRequest pageRequest = PageRequest.of(page, size);
         return ResponseEntity.ok(userService.get(ids, pageRequest));
@@ -36,35 +37,40 @@ public class UserController {
 
     @DeleteMapping("/admin/users/{userId}")
     void delete(@PathVariable("userId") Long userId) {
+        log.info("EWM-Server: delete users {}", userId);
         userService.delete(userId);
     }
 
     @GetMapping("/users/{userId}/events/{eventId}")
     ResponseEntity<EventFullDto> getEventByUser(@PathVariable Long eventId,
                                                 @PathVariable Long userId) {
+        log.info("EWM-Server: get event by user{}, event{}", userId, eventId);
         return ResponseEntity.ok(userService.getEventByUser(eventId, userId));
     }
 
     @GetMapping("/users/{userId}/requests")
     ResponseEntity<List<ParticipationDto>> getUserRequest(@PathVariable Long userId) {
+        log.info("EWM-Server: get User Request {}", userId);
         return ResponseEntity.ok(userService.getUserRequest(userId));
     }
 
     @GetMapping("/users/{userId}/events/{eventId}/requests")
     ResponseEntity<List<ParticipationDto>> getParticipationRequestsOfUser(@PathVariable Long userId,
                                                                           @PathVariable Long eventId) {
+        log.info("EWM-Server: get Participation Requests Of User {}, evetid{}", userId, eventId);
         return ResponseEntity.ok(userService.getParticipationRequestsOfUser(userId, eventId));
     }
 
     @PatchMapping("/users/{userId}/events/{eventId}")
     ResponseEntity<EventFullDto> setRejectByUser(@PathVariable Long eventId,
                                                  @PathVariable Long userId) {
-        System.out.println(eventId + " " + userId);
+        log.info("EWM-Server: set reject: user {}, event", userId, eventId);
         return ResponseEntity.ok(userService.setRejectByUser(eventId, userId));
     }
 
     @PatchMapping("/users/{userId}/requests/{requestId}/cancel")
     public ParticipationDto cancelRequest(@PathVariable Long userId, @PathVariable Long requestId) {
+        log.info("EWM-Server: cancel Request: user{}, request{}", userId, requestId);
         return userService.cancelRequest(userId, requestId);
     }
 
@@ -72,7 +78,7 @@ public class UserController {
     public ParticipationDto rejectRequest(@PathVariable(value = "userId") long userId,
                                           @PathVariable(value = "eventId") long eventId,
                                           @PathVariable(value = "reqId") long requestId) {
-        log.info("PRIVATE: User={} reject request={} for event={}", userId, requestId, eventId);
+        log.info("EWM-Server: User={} reject request={} for event={}", userId, requestId, eventId);
         return userService.rejectRequest(userId, eventId, requestId);
     }
 
@@ -80,7 +86,7 @@ public class UserController {
     public ParticipationDto confirmRequest(@PathVariable(value = "userId") long userId,
                                            @PathVariable(value = "eventId") long eventId,
                                            @PathVariable(value = "reqId") long requestId) {
-        log.info("PRIVATE: User={} confirm request={} for event={}", userId, requestId, eventId);
+        log.info("EWM-Server: User={} confirm request={} for event={}", userId, requestId, eventId);
         return userService.confirmRequest(userId, eventId, requestId);
     }
 

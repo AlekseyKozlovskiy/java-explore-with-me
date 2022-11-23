@@ -5,7 +5,7 @@ import org.springframework.stereotype.Service;
 import ru.practicum.explore.event.Event;
 import ru.practicum.explore.event.EventRepository;
 import ru.practicum.explore.event.State;
-import ru.practicum.explore.exceptions.IncorrectRequest;
+import ru.practicum.explore.compilations.exceptions.IncorrectRequest;
 import ru.practicum.explore.participation.dto.ParticipationDto;
 import ru.practicum.explore.participation.dto.ParticipationMapper;
 import ru.practicum.explore.user.User;

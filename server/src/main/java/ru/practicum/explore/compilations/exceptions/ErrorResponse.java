@@ -1,4 +1,4 @@
-package ru.practicum.explore.exceptions;
+package ru.practicum.explore.compilations.exceptions;
 
 public class ErrorResponse {
     private final String error;

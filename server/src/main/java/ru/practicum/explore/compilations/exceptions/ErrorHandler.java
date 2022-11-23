@@ -1,4 +1,4 @@
-package ru.practicum.explore.exceptions;
+package ru.practicum.explore.compilations.exceptions;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.ExceptionHandler;

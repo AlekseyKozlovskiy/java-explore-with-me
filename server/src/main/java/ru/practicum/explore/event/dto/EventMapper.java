@@ -15,8 +15,6 @@ public interface EventMapper {
 
     DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
 
-    Event toEventFromFullDto(EventFullDto eventFullDto);
-
     @Mapping(target = "category", ignore = true)
     @Mapping(target = "initiator", ignore = true)
     Event toEventFromUpdateEventDto(UpdateEventDto updateEventDto);

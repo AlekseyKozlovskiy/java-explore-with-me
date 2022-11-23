@@ -7,7 +7,7 @@ import java.util.List;
 
 @Data
 public class NewDto {
-    Long id;
+    private Long id;
     private boolean pinned;
     private String title;
     private List<Event> events;

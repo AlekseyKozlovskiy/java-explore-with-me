@@ -5,8 +5,8 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 import ru.practicum.explore.categories.dto.CategoryDto;
 import ru.practicum.explore.categories.dto.CategoryMapper;
-import ru.practicum.explore.exceptions.ConflictExceptions;
-import ru.practicum.explore.exceptions.IncorrectRequest;
+import ru.practicum.explore.compilations.exceptions.ConflictExceptions;
+import ru.practicum.explore.compilations.exceptions.IncorrectRequest;
 
 import javax.transaction.Transactional;
 import java.util.List;

@@ -14,57 +14,57 @@ import java.time.LocalDateTime;
 public class Event {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    Long id;
+    private Long id;
 
     @Column(name = "annotation")
-    String annotation;
+    private String annotation;
 
     @JoinColumn(name = "category_id")
     @ManyToOne
-    Category category;
+    private Category category;
 
     @Column(name = "confirmed_requests")
-    Boolean confirmedRequests;
+    private Boolean confirmedRequests;
 
     @Column(name = "created_on")
-    LocalDateTime createdOn;
+    private LocalDateTime createdOn;
 
     @Column(name = "description")
-    String description;
+    private String description;
 
     @Column(name = "event_date")
-    LocalDateTime eventDate;
+    private LocalDateTime eventDate;
 
     @Column(name = "paid")
-    Boolean paid;
+    private Boolean paid;
 
     @JoinColumn(name = "initiator_id")
     @ManyToOne
-    User initiator;
+    private User initiator;
 
     @Column(name = "participant_limit")
-    Long participantLimit;
+    private Long participantLimit;
 
     @Column(name = "published_on")
-    LocalDateTime publishedOn;
+    private LocalDateTime publishedOn;
 
     @Column(name = "request_moderation")
-    Boolean requestModeration;
+    private Boolean requestModeration;
 
     @Enumerated(EnumType.STRING)
     @Column(name = "state")
-    State state;
+    private State state;
 
     @Column(name = "title")
-    String title;
+    private String title;
 
     @Column(name = "views")
-    Long views;
+    private Long views;
 
     @Column(name = "lat")
-    Float lat;
+    private Float lat;
 
     @Column(name = "lon")
-    Float lon;
+    private Float lon;
 
 }

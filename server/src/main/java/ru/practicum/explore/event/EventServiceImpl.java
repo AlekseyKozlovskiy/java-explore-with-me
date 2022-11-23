@@ -11,7 +11,7 @@ import ru.practicum.explore.event.dto.EventFullDto;
 import ru.practicum.explore.event.dto.EventMapper;
 import ru.practicum.explore.event.dto.EventNewDto;
 import ru.practicum.explore.event.dto.UpdateEventDto;
-import ru.practicum.explore.exceptions.IncorrectRequest;
+import ru.practicum.explore.compilations.exceptions.IncorrectRequest;
 import ru.practicum.explore.user.UserRepository;
 
 import javax.persistence.criteria.Predicate;
@@ -72,28 +72,28 @@ public class EventServiceImpl implements EventService {
         return eventMapper.toEventFullDto(eventRepository.save(event));
     }
 
-    public static Event toUpdatedEvent(EventNewDto dto, Category category, Event event) {
-        if (dto.getAnnotation() != null) {
-            event.setAnnotation(dto.getAnnotation());
+    public static Event toUpdatedEvent(EventNewDto eventNewDto, Category category, Event event) {
+        if (eventNewDto.getAnnotation() != null) {
+            event.setAnnotation(eventNewDto.getAnnotation());
         }
         if (category != null) {
             event.setCategory(category);
         }
-        if (dto.getDescription() != null) {
-            event.setDescription(dto.getDescription());
+        if (eventNewDto.getDescription() != null) {
+            event.setDescription(eventNewDto.getDescription());
         }
-        if (dto.getEventDate() != null) {
-            event.setEventDate(LocalDateTime.parse(dto.getEventDate(), FORMATTER));
+        if (eventNewDto.getEventDate() != null) {
+            event.setEventDate(LocalDateTime.parse(eventNewDto.getEventDate(), FORMATTER));
         }
-        event.setPaid(dto.isPaid());
-        event.setParticipantLimit(dto.getParticipantLimit());
-        event.setRequestModeration(dto.isRequestModeration());
-        if (dto.getTitle() != null) {
-            event.setTitle(dto.getTitle());
+        event.setPaid(eventNewDto.isPaid());
+        event.setParticipantLimit(eventNewDto.getParticipantLimit());
+        event.setRequestModeration(eventNewDto.isRequestModeration());
+        if (eventNewDto.getTitle() != null) {
+            event.setTitle(eventNewDto.getTitle());
         }
-        if (dto.getLocation() != null) {
-            event.setLat(dto.getLocation().getLat());
-            event.setLon(dto.getLocation().getLon());
+        if (eventNewDto.getLocation() != null) {
+            event.setLat(eventNewDto.getLocation().getLat());
+            event.setLon(eventNewDto.getLocation().getLon());
         }
         return event;
     }
@@ -145,18 +145,6 @@ public class EventServiceImpl implements EventService {
                                         Boolean paid, String rangeStart,
                                         String rangeEnd, Boolean onlyAvailable,
                                         PageRequest pageRequest) {
-        LocalDateTime start;
-        LocalDateTime end;
-        if (rangeStart == null) {
-            start = LocalDateTime.MIN;
-        } else {
-            start = LocalDateTime.parse(rangeStart, FORMATTER);
-        }
-        if (rangeEnd == null) {
-            end = LocalDateTime.MAX;
-        } else {
-            end = LocalDateTime.parse(rangeEnd, FORMATTER);
-        }
 
         Specification<Event> specification = (root, query, builder) -> {
             List<Predicate> predicates = new ArrayList<>();

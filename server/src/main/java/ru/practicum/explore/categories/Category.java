@@ -12,9 +12,9 @@ import javax.validation.constraints.NotBlank;
 public class Category {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    Long id;
+    private Long id;
 
     @NotBlank
     @Column(name = "name", nullable = false)
-    String name;
+    private String name;
 }

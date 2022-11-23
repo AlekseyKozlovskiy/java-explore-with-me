@@ -11,9 +11,6 @@ import java.util.stream.Collectors;
 @Mapper(componentModel = "spring", unmappedTargetPolicy = ReportingPolicy.IGNORE)
 public interface CompilationMapper {
 
-    @Mapping(target = "events", ignore = true)
-    CompilationDto toCompilationDto(Compilation compilation);
-
     @AfterMapping
     default void setEvents(@MappingTarget CompilationDto compilationDto, Compilation compilation) {
         Set<Long> longs = compilation.getEvents().stream().map(Event::getId).collect(Collectors.toSet());

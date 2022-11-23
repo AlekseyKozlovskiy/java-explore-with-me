@@ -15,7 +15,6 @@ public class StatService {
     private final StatRepository statRepository;
     private final EndpointMapper endpointMapper;
 
-
     void add(EndpointHitDto endpointHitDto) {
         statRepository.save(endpointMapper.toEndpoint(endpointHitDto));
     }
@@ -31,10 +30,10 @@ public class StatService {
             Integer hits;
             if (unique) {
                 hits = statRepository.findUniqueIpUriHits(uri, startTime, endTime)
-                        .orElseThrow(() -> new RuntimeException("DB extraction error"));
+                        .orElseThrow(() -> new RuntimeException("Ошибка в запросе к бд"));
             } else {
                 hits = statRepository.findUriHits(uri, startTime, endTime)
-                        .orElseThrow(() -> new RuntimeException("DB extraction error"));
+                        .orElseThrow(() -> new RuntimeException("Ошибка в запросе к бд"));
             }
             ViewStats viewStats = new ViewStats("main-service", uri, hits);
             statsList.add(viewStats);

@@ -15,19 +15,19 @@ import java.util.Set;
 public class Compilation {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    Long id;
+    private Long id;
 
     @Column(name = "pinned")
-    boolean pinned;
+    private boolean pinned;
 
     @Column(name = "title")
-    String title;
+    private String title;
 
     @ManyToMany
     @JoinTable(name = "event_compilation",
             joinColumns = @JoinColumn(name = "compilation_id"),
             inverseJoinColumns = @JoinColumn(name = "event_id"))
-    Set<Event> events;
+    private Set<Event> events;
 
     @Override
     public boolean equals(Object o) {

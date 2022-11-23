@@ -10,8 +10,6 @@ import java.time.format.DateTimeFormatter;
 public interface EndpointMapper {
     DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
 
-    EndpointHitDto toEndpointHitDto(EndpointHit endpointHit);
-
     EndpointHit toEndpoint(EndpointHitDto endpointHitDto);
 
     @Component

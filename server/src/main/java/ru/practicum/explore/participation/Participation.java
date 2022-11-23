@@ -15,21 +15,21 @@ import java.time.LocalDateTime;
 public class Participation {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    Long id;
+    private Long id;
 
     @ManyToOne
     @JoinColumn(name = "event_id")
-    Event event;
+    private Event event;
 
     @ManyToOne
     @JoinColumn(name = "user_id")
     private User requester;
 
     @Column(name = "created")
-    LocalDateTime created;
+    private LocalDateTime created;
 
     @Column
     @Enumerated(EnumType.STRING)
-    State status;
+    private State status;
 
 }

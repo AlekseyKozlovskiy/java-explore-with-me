@@ -7,7 +7,7 @@ import ru.practicum.explore.compilations.dto.CompilationDto;
 import ru.practicum.explore.compilations.dto.NewDto;
 import ru.practicum.explore.event.Event;
 import ru.practicum.explore.event.EventRepository;
-import ru.practicum.explore.exceptions.IncorrectRequest;
+import ru.practicum.explore.compilations.exceptions.IncorrectRequest;
 
 import java.util.List;
 import java.util.Set;
@@ -22,7 +22,6 @@ public class CompilationServiceImpl implements CompilationService {
 
     @Override
     public NewDto createCompilation(CompilationDto compilationDto) {
-        System.out.println(compilationDto);
         Set<Event> eventList = compilationDto.getEvents().stream()
                 .map((id) -> eventRepository.findById(id).orElseThrow())
                 .collect(Collectors.toSet());

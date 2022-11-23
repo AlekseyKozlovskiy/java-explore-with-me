@@ -9,7 +9,7 @@ import ru.practicum.explore.event.EventRepository;
 import ru.practicum.explore.event.State;
 import ru.practicum.explore.event.dto.EventFullDto;
 import ru.practicum.explore.event.dto.EventMapper;
-import ru.practicum.explore.exceptions.ConflictExceptions;
+import ru.practicum.explore.compilations.exceptions.ConflictExceptions;
 import ru.practicum.explore.participation.Participation;
 import ru.practicum.explore.participation.ParticipationRepository;
 import ru.practicum.explore.participation.dto.ParticipationDto;
@@ -76,7 +76,6 @@ public class UserServiceImpl implements UserService {
     @Override
     public EventFullDto setRejectByUser(Long eventId, Long userId) {
         Event event = eventRepository.findById(eventId).orElseThrow();
-        System.out.println(event.getInitiator().getId());
         if (!Objects.equals(event.getInitiator().getId(), userId)) {
             throw new IllegalStateException();
         }

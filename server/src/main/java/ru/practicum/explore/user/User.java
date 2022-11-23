@@ -16,15 +16,15 @@ import javax.validation.constraints.NotBlank;
 public class User {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    Long id;
+    private Long id;
 
     @NotBlank
     @Column(name = "name", nullable = false)
-    String name;
+    private String name;
 
     @Email
     @NotBlank
     @Column(name = "email")
-    String email;
+    private String email;
 
 }

@@ -17,17 +17,8 @@ public class StatController {
 
     @PostMapping("/hit")
     public void add(@RequestBody EndpointHitDto endpointHitDto) {
-//        System.out.println(endpointMapper.toEndpointHitDto(endpointHit));
-//        System.out.println(LocalDateTime.parse(endpointHit.getTimestamp(), FORMATTER));
-//        endpointHit.setTimestamp(LocalDateTime.parse(endpointHit.getTimestamp(), FORMATTER));
         statService.add(endpointHitDto);
     }
-//    @PostMapping("/test")
-//    public void rr(@RequestBody EndpointHit endpointHit) {
-//        System.out.println("!!!!");
-//        System.out.println(endpointHit);
-//        statService.add(endpointHit);
-//    }
 
     @GetMapping("/stats")
     public List<ViewStats> getStats(@RequestParam String start,

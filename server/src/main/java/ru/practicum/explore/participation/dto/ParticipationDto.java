@@ -7,12 +7,9 @@ import java.time.LocalDateTime;
 
 @Data
 public class ParticipationDto {
-    Long id;
-    LocalDateTime created;
-
-    Long event;
-
-    Long requester;
-
-    State status;
+    private Long id;
+    private LocalDateTime created;
+    private Long event;
+    private Long requester;
+    private State status;
 }

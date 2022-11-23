@@ -16,6 +16,7 @@ public class ParticipationController {
     @PostMapping("/users/{userId}/requests")
     ResponseEntity<ParticipationDto> add(@PathVariable(value = "userId") Long userId,
                                          @RequestParam(name = "eventId") Long eventId) {
+        log.info("EWM-Server: add request: user id{}, event id{}", userId, eventId);
         return ResponseEntity.ok(participationService.add(userId, eventId));
     }
 }
