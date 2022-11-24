@@ -26,7 +26,6 @@ public interface UserService {
 
     ParticipationDto confirmRequest(long userId, long eventId, long requestId);
 
-
     void delete(Long userId);
 
 }

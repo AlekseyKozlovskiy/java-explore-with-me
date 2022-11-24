@@ -5,12 +5,13 @@ import org.springframework.stereotype.Service;
 import ru.practicum.explore.event.Event;
 import ru.practicum.explore.event.EventRepository;
 import ru.practicum.explore.event.State;
-import ru.practicum.explore.compilations.exceptions.IncorrectRequest;
+import ru.practicum.explore.exceptions.IncorrectRequest;
 import ru.practicum.explore.participation.dto.ParticipationDto;
 import ru.practicum.explore.participation.dto.ParticipationMapper;
 import ru.practicum.explore.user.User;
 import ru.practicum.explore.user.UserRepository;
 
+import javax.transaction.Transactional;
 import java.time.LocalDateTime;
 
 @Service
@@ -23,11 +24,14 @@ public class ParticipationServiceImpl implements ParticipationService {
     private final ParticipationMapper participationMapper;
 
     @Override
+    @Transactional
     public ParticipationDto add(Long userId, Long eventId) {
 
         Participation request = participationRepository.findByRequesterIdAndEventId(userId, eventId);
-        Event event = eventRepository.findById(eventId).orElseThrow(() -> new IncorrectRequest("Event not found!"));
-        User user = userRepository.findById(userId).orElseThrow(() -> new IncorrectRequest("User not found!"));
+        Event event = eventRepository.findById(eventId)
+                .orElseThrow(() -> new IncorrectRequest("Событие не найдено " + eventId));
+        User user = userRepository.findById(userId)
+                .orElseThrow(() -> new IncorrectRequest("Пользователь не найден " + userId));
         if (request != null) {
             throw new IncorrectRequest("Request already exists!");
         }

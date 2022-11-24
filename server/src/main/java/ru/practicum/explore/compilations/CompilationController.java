@@ -4,11 +4,11 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.http.ResponseEntity;
-import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 import ru.practicum.explore.compilations.dto.CompilationDto;
 import ru.practicum.explore.compilations.dto.NewDto;
 
+import javax.validation.Valid;
 import java.util.List;
 
 @RestController
@@ -18,7 +18,7 @@ public class CompilationController {
     private final CompilationService compilationService;
 
     @PostMapping("/admin/compilations")
-    public ResponseEntity<NewDto> addNewCompilation(@Validated @RequestBody CompilationDto newDto) {
+    public ResponseEntity<NewDto> addNewCompilation(@Valid @RequestBody CompilationDto newDto) {
         log.info("EWM-Server: add compilation {}", newDto);
         return ResponseEntity.ok(compilationService.createCompilation(newDto));
     }

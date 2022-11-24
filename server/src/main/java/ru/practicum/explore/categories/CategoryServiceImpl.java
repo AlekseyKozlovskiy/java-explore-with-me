@@ -5,8 +5,8 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 import ru.practicum.explore.categories.dto.CategoryDto;
 import ru.practicum.explore.categories.dto.CategoryMapper;
-import ru.practicum.explore.compilations.exceptions.ConflictExceptions;
-import ru.practicum.explore.compilations.exceptions.IncorrectRequest;
+import ru.practicum.explore.exceptions.ConflictExceptions;
+import ru.practicum.explore.exceptions.IncorrectRequest;
 
 import javax.transaction.Transactional;
 import java.util.List;
@@ -22,7 +22,7 @@ public class CategoryServiceImpl implements CategoryService {
     @Transactional
     public CategoryDto add(CategoryDto categoryDto) {
         if (categoryRepository.existsByName(categoryDto.getName())) {
-            throw new ConflictExceptions("имя занято");
+            throw new ConflictExceptions("Имя уже присутствует в базе: " + categoryDto.getName());
         }
         return categoryMapper.toDto(categoryRepository.save(categoryMapper.toCategory(categoryDto)));
     }
@@ -31,14 +31,14 @@ public class CategoryServiceImpl implements CategoryService {
     @Transactional
     public void delete(Long catId) {
         if (categoryRepository.existsById(catId)) categoryRepository.deleteById(catId);
-    else throw new IncorrectRequest("Категория не найдена");
+    else throw new IncorrectRequest("Категория не найдена: " + catId);
     }
 
     @Override
     @Transactional
     public CategoryDto update(CategoryDto categoryDto) {
         if (categoryRepository.existsByName(categoryDto.getName())) {
-            throw new ConflictExceptions("имя занято");
+            throw new ConflictExceptions("Имя уже присутствует в базе: " + categoryDto.getName());
         }
         Category category1 = categoryMapper.toCategory(categoryDto);
         category1.setName(category1.getName());
@@ -48,7 +48,7 @@ public class CategoryServiceImpl implements CategoryService {
     @Override
     public CategoryDto getCategory(Long catId) {
         return categoryMapper.toDto(categoryRepository.findById(catId)
-                .orElseThrow(() -> new IncorrectRequest("категория не найдена")));
+                .orElseThrow(() -> new IncorrectRequest("Категория не найдена: " + catId)));
     }
 
     @Override

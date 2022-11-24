@@ -2,9 +2,10 @@ package ru.practicum.stats;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import ru.practicum.utils.FormatterDate;
 
+import javax.transaction.Transactional;
 import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
@@ -15,13 +16,14 @@ public class StatService {
     private final StatRepository statRepository;
     private final EndpointMapper endpointMapper;
 
-    void add(EndpointHitDto endpointHitDto) {
+    @Transactional
+    public void add(EndpointHitDto endpointHitDto) {
         statRepository.save(endpointMapper.toEndpoint(endpointHitDto));
     }
 
     public List<ViewStats> getStats(String start, String end, Set<String> uris, Boolean unique) {
-        LocalDateTime startTime = LocalDateTime.parse(start, DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss"));
-        LocalDateTime endTime = LocalDateTime.parse(end, DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss"));
+        LocalDateTime startTime = LocalDateTime.parse(start, FormatterDate.formatter());
+        LocalDateTime endTime = LocalDateTime.parse(end, FormatterDate.formatter());
         List<ViewStats> statsList = new ArrayList<>();
         if (uris.isEmpty())
             return statsList;

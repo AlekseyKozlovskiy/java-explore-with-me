@@ -4,12 +4,12 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.http.ResponseEntity;
-import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 import ru.practicum.explore.event.dto.EventFullDto;
 import ru.practicum.explore.participation.dto.ParticipationDto;
 import ru.practicum.explore.user.dto.UserDto;
 
+import javax.validation.Valid;
 import java.util.List;
 
 @RestController
@@ -20,7 +20,7 @@ public class UserController {
     private final UserService userService;
 
     @PostMapping("/admin/users")
-    ResponseEntity<UserDto> add(@Validated @RequestBody UserDto userDto) {
+    ResponseEntity<UserDto> add(@Valid @RequestBody UserDto userDto) {
         log.info("EWM-Server: Add new user {}", userDto);
         return ResponseEntity.ok(userService.add(userDto));
     }

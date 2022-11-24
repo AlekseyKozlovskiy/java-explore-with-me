@@ -1,4 +1,4 @@
-package ru.practicum.explore.compilations.exceptions;
+package ru.practicum.explore.exceptions;
 
 public class ConflictExceptions extends RuntimeException {
     public ConflictExceptions(String s) {

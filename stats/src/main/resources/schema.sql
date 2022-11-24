@@ -5,6 +5,6 @@ CREATE TABLE IF NOT EXISTS ewm_stats.stat
     app       VARCHAR(255)                         NOT NULL,
     uri       VARCHAR(255)                         NOT NULL,
     ip        VARCHAR(512)                         NOT NULL,
-    timestamp TIMESTAMP                            NOT NULL,
+    timestamp TIMESTAMP WITH TIME ZONE             NOT NULL,
     CONSTRAINT pk_stat PRIMARY KEY (id)
 );

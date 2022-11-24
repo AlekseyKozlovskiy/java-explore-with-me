@@ -5,7 +5,6 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
 import org.springframework.http.ResponseEntity;
-import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 import ru.practicum.explore.event.dto.EventFullDto;
 import ru.practicum.explore.event.dto.EventNewDto;
@@ -13,6 +12,7 @@ import ru.practicum.explore.event.dto.UpdateEventDto;
 import ru.practicum.explore.client.Fein;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.validation.Valid;
 import javax.validation.constraints.Positive;
 import javax.validation.constraints.PositiveOrZero;
 import java.util.List;
@@ -27,14 +27,14 @@ public class EventController {
     private final Fein fein;
 
     @PatchMapping("/users/{userId}/events")
-    ResponseEntity<EventFullDto> update(@Validated @RequestBody UpdateEventDto updateEventDto,
+    ResponseEntity<EventFullDto> update(@Valid @RequestBody UpdateEventDto updateEventDto,
                                         @PathVariable Long userId) {
         log.info("EWM-Server: update event {}", updateEventDto);
         return ResponseEntity.ok(eventService.update(updateEventDto, userId));
     }
 
     @PostMapping("/users/{userId}/events")
-    ResponseEntity<EventFullDto> add(@Validated @RequestBody EventNewDto eventNewDto,
+    ResponseEntity<EventFullDto> add(@Valid @RequestBody EventNewDto eventNewDto,
                                      @PathVariable(value = "userId") Long userId) {
         log.info("EWM-Server: Add new event {}", eventNewDto);
         return ResponseEntity.ok(eventService.add(eventNewDto, userId));

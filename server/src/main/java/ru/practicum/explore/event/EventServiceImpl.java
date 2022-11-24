@@ -11,12 +11,13 @@ import ru.practicum.explore.event.dto.EventFullDto;
 import ru.practicum.explore.event.dto.EventMapper;
 import ru.practicum.explore.event.dto.EventNewDto;
 import ru.practicum.explore.event.dto.UpdateEventDto;
-import ru.practicum.explore.compilations.exceptions.IncorrectRequest;
+import ru.practicum.explore.exceptions.IncorrectRequest;
 import ru.practicum.explore.user.UserRepository;
+import ru.practicum.explore.utils.FormatterDate;
 
 import javax.persistence.criteria.Predicate;
+import javax.transaction.Transactional;
 import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -24,13 +25,13 @@ import java.util.stream.Collectors;
 @Service
 @RequiredArgsConstructor
 public class EventServiceImpl implements EventService {
-    public static final DateTimeFormatter FORMATTER = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
     private final EventRepository eventRepository;
     private final EventMapper eventMapper;
     private final UserRepository userRepository;
     private final CategoryRepository categoryRepository;
 
     @Override
+    @Transactional
     public EventFullDto add(EventNewDto eventNewDto, Long userId) {
         Event event = eventMapper.toEventFromNewDto(eventNewDto);
         event.setCategory(categoryRepository.findById(eventNewDto.getCategory()).orElseThrow());
@@ -40,6 +41,7 @@ public class EventServiceImpl implements EventService {
     }
 
     @Override
+    @Transactional
     public EventFullDto update(UpdateEventDto updateEventDto, Long userId) {
         Event event = eventMapper.toEventFromUpdateEventDto(updateEventDto);
         updateEvent(event, updateEventDto, userId);
@@ -59,14 +61,16 @@ public class EventServiceImpl implements EventService {
     }
 
     @Override
-    public EventFullDto getEventById(Long id) {
-        return eventMapper.toEventFullDto(eventRepository.findById(id)
-                .orElseThrow(() -> new IncorrectRequest("событие не найдено")));
+    public EventFullDto getEventById(Long eventId) {
+        return eventMapper.toEventFullDto(eventRepository.findById(eventId)
+                .orElseThrow(() -> new IncorrectRequest("Событие не найдено " + eventId)));
     }
 
     @Override
+    @Transactional
     public EventFullDto publishedEvent(Long eventId) {
-        Event event = eventRepository.findById(eventId).orElseThrow(() -> new IncorrectRequest("событие не найдено"));
+        Event event = eventRepository.findById(eventId)
+                .orElseThrow(() -> new IncorrectRequest("Событие не найдено " + eventId));
         event.setPublishedOn(LocalDateTime.now().plusHours(2));
         event.setState(State.PUBLISHED);
         return eventMapper.toEventFullDto(eventRepository.save(event));
@@ -83,7 +87,7 @@ public class EventServiceImpl implements EventService {
             event.setDescription(eventNewDto.getDescription());
         }
         if (eventNewDto.getEventDate() != null) {
-            event.setEventDate(LocalDateTime.parse(eventNewDto.getEventDate(), FORMATTER));
+            event.setEventDate(LocalDateTime.parse(eventNewDto.getEventDate(), FormatterDate.formatter()));
         }
         event.setPaid(eventNewDto.isPaid());
         event.setParticipantLimit(eventNewDto.getParticipantLimit());
@@ -115,8 +119,8 @@ public class EventServiceImpl implements EventService {
                 predicates.add(builder.and(root.get("category").in(categories)));
             }
             if ((rangeStart != null && rangeEnd != null)) {
-                predicates.add(builder.greaterThan(root.get("eventDate"), LocalDateTime.parse(rangeStart, FORMATTER)));
-                predicates.add(builder.lessThan(root.get("eventDate"), LocalDateTime.parse(rangeEnd, FORMATTER)));
+                predicates.add(builder.greaterThan(root.get("eventDate"), LocalDateTime.parse(rangeStart, FormatterDate.formatter())));
+                predicates.add(builder.lessThan(root.get("eventDate"), LocalDateTime.parse(rangeEnd, FormatterDate.formatter())));
             }
             return builder.and(predicates.toArray(new Predicate[0]));
         };
@@ -126,6 +130,7 @@ public class EventServiceImpl implements EventService {
     }
 
     @Override
+    @Transactional
     public EventFullDto setReject(Long eventId) {
         Event event = eventRepository.findById(eventId).orElseThrow();
         event.setState(State.CANCELED);
@@ -133,6 +138,7 @@ public class EventServiceImpl implements EventService {
     }
 
     @Override
+    @Transactional
     public EventFullDto editEvent(Long eventId, EventNewDto eventNewDto) {
         Event event = eventRepository.findById(eventId).orElseThrow();
         Category category = categoryRepository.findById(eventNewDto.getCategory()).orElseThrow();
@@ -161,8 +167,8 @@ public class EventServiceImpl implements EventService {
                 predicates.add(builder.equal(root.get("paid"), paid));
             }
             if ((rangeStart != null && rangeEnd != null)) {
-                predicates.add(builder.greaterThan(root.get("eventDate"), LocalDateTime.parse(rangeStart, FORMATTER)));
-                predicates.add(builder.lessThan(root.get("eventDate"), LocalDateTime.parse(rangeEnd, FORMATTER)));
+                predicates.add(builder.greaterThan(root.get("eventDate"), LocalDateTime.parse(rangeStart, FormatterDate.formatter())));
+                predicates.add(builder.lessThan(root.get("eventDate"), LocalDateTime.parse(rangeEnd, FormatterDate.formatter())));
             }
             if (onlyAvailable) {
                 predicates.add(builder.or(builder.equal(root.get("participantLimit"), 0),

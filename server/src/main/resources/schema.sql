@@ -22,7 +22,7 @@ CREATE TABLE IF NOT EXISTS ewm.events
     confirmed_requests BOOLEAN,
     created_on         TIMESTAMP WITHOUT TIME ZONE,
     description        VARCHAR(5000),
-    event_date         TIMESTAMP,
+    event_date         TIMESTAMP WITH TIME ZONE,
     initiator_id       BIGINT,
     paid               BOOLEAN,
     participant_limit  BIGINT,

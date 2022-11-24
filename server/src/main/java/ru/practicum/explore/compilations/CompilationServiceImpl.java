@@ -7,8 +7,9 @@ import ru.practicum.explore.compilations.dto.CompilationDto;
 import ru.practicum.explore.compilations.dto.NewDto;
 import ru.practicum.explore.event.Event;
 import ru.practicum.explore.event.EventRepository;
-import ru.practicum.explore.compilations.exceptions.IncorrectRequest;
+import ru.practicum.explore.exceptions.IncorrectRequest;
 
+import javax.transaction.Transactional;
 import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
@@ -21,6 +22,7 @@ public class CompilationServiceImpl implements CompilationService {
     private final EventRepository eventRepository;
 
     @Override
+    @Transactional
     public NewDto createCompilation(CompilationDto compilationDto) {
         Set<Event> eventList = compilationDto.getEvents().stream()
                 .map((id) -> eventRepository.findById(id).orElseThrow())
@@ -46,6 +48,7 @@ public class CompilationServiceImpl implements CompilationService {
     }
 
     @Override
+    @Transactional
     public NewDto addEventToCompilation(Long compId, Long eventId) {
         Compilation compilation = compilationRepository.findById(compId).orElseThrow();
         compilation.getEvents().add(eventRepository.findById(eventId).orElseThrow());
@@ -53,6 +56,7 @@ public class CompilationServiceImpl implements CompilationService {
     }
 
     @Override
+    @Transactional
     public NewDto changePinned(Long compId) {
         Compilation compilation = compilationRepository.findById(compId).orElseThrow();
         compilation.setPinned(!compilation.isPinned());
@@ -60,13 +64,15 @@ public class CompilationServiceImpl implements CompilationService {
     }
 
     @Override
+    @Transactional
     public void delete(Long compId) {
         compilationRepository.findById(compId).orElseThrow(() ->
-                new IncorrectRequest("подборка не найдена"));
+                new IncorrectRequest("Подборка не найдена " + compId));
         compilationRepository.deleteById(compId);
     }
 
     @Override
+    @Transactional
     public void deleteEventFromCompilation(Long compId, Long eventId) {
         Compilation compilation = compilationRepository.findById(compId).orElseThrow();
         Event deletedEvent = eventRepository.findById(eventId).orElseThrow();

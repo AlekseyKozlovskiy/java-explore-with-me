@@ -25,7 +25,7 @@ public class Participation {
     @JoinColumn(name = "user_id")
     private User requester;
 
-    @Column(name = "created")
+    @Column(name = "created", nullable = false)
     private LocalDateTime created;
 
     @Column

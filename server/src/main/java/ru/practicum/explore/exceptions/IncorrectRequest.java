@@ -1,4 +1,4 @@
-package ru.practicum.explore.compilations.exceptions;
+package ru.practicum.explore.exceptions;
 
 public class IncorrectRequest extends RuntimeException {
     public IncorrectRequest(String s) {

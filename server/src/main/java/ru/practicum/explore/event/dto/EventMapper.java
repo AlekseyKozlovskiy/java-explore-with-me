@@ -6,15 +6,12 @@ import org.mapstruct.Mapping;
 import org.mapstruct.MappingTarget;
 import org.springframework.stereotype.Component;
 import ru.practicum.explore.event.Event;
+import ru.practicum.explore.utils.FormatterDate;
 
 import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
 
 @Mapper(componentModel = "spring", uses = EventMapper.DateMapper.class)
 public interface EventMapper {
-
-    DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
-
     @Mapping(target = "category", ignore = true)
     @Mapping(target = "initiator", ignore = true)
     Event toEventFromUpdateEventDto(UpdateEventDto updateEventDto);
@@ -46,11 +43,11 @@ public interface EventMapper {
     @Component
     class DateMapper {
         public String asString(LocalDateTime date) {
-            return date.format(formatter);
+            return date.format(FormatterDate.formatter());
         }
 
         public LocalDateTime asDate(String date) {
-            return LocalDateTime.parse(date, formatter);
+            return LocalDateTime.parse(date, FormatterDate.formatter());
         }
     }
 
