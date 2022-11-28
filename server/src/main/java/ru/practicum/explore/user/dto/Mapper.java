@@ -7,4 +7,6 @@ public interface Mapper {
     User toUser(UserDto userDto);
 
     UserDto toUserDto(User user);
+
+    UserShortDto toUserShortDto(User user);
 }

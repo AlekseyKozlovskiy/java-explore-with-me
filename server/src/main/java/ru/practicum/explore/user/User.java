@@ -27,4 +27,7 @@ public class User {
     @Column(name = "email", nullable = false)
     private String email;
 
+    @Column(name = "banned_to_comment", nullable = false)
+    private Boolean bannedToComment;
+
 }

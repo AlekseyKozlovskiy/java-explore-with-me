@@ -41,4 +41,6 @@ public class EventFullDto {
 
     private Location location;
 
+    private Boolean availabilityOfComments = true;
+
 }

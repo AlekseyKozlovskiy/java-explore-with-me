@@ -67,4 +67,7 @@ public class Event {
     @Column(name = "lon", nullable = false)
     private Float lon;
 
+    @Column(name = "availability_of_comments", nullable = false)
+    private Boolean availabilityOfComments;
+
 }

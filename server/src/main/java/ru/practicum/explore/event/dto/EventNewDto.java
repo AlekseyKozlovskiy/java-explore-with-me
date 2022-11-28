@@ -22,5 +22,5 @@ public class EventNewDto {
     private boolean requestModeration;
     @NotBlank
     private String title;
-
+    private Boolean availabilityOfComments = true;
 }
