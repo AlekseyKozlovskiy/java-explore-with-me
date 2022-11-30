@@ -37,6 +37,7 @@ public class CommentServiceImpl implements CommentService {
     private final CommentMapper commentMapper;
 
     @Override
+    @Transactional
     public CommentDto add(Long userId, Long eventId, CommentDto commentDto) {
         User user = userRepository.findById(userId).orElseThrow(() ->
                 new IncorrectRequest("Пользователь не найден " + userId));
@@ -82,6 +83,7 @@ public class CommentServiceImpl implements CommentService {
     }
 
     @Override
+    @Transactional
     public EventFullDto availableComment(Long eventId) {
         Event event = eventRepository.findById(eventId).orElseThrow(() ->
                 new IncorrectRequest("Событие не найдено " + eventId));

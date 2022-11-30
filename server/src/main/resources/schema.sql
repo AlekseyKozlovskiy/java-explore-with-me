@@ -74,7 +74,7 @@ CREATE TABLE IF NOT EXISTS ewm.comments
     created  TIMESTAMP WITHOUT TIME ZONE,
     event_id BIGINT,
     user_id  BIGINT,
-    comment  VARCHAR(255),
+    comment  VARCHAR(5000),
     CONSTRAINT pk_comments PRIMARY KEY (id),
     CONSTRAINT FK_COMMENT_ON_EVENT FOREIGN KEY (event_id) REFERENCES ewm.events (id),
     CONSTRAINT FK_COMMENT_ON_USER FOREIGN KEY (user_id) REFERENCES ewm.users (id)
