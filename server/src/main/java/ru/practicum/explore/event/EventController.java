@@ -51,8 +51,10 @@ public class EventController {
     }
 
     @GetMapping("/events/{id}")
-    ResponseEntity<EventFullDto> getEventById(@PathVariable("id") Long eventId) {
+    ResponseEntity<EventFullDto> getEventById(@PathVariable("id") Long eventId,
+                                              HttpServletRequest request) {
         log.info("EWM-Server: get event by id{}", eventId);
+        fein.addToStat(Fein.toEndpointHitDto(request));
         return ResponseEntity.ok(eventService.getEventById(eventId));
     }
 
