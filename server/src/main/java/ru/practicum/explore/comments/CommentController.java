@@ -32,7 +32,7 @@ public class CommentController {
         commentService.delete(commentId);
     }
 
-    @DeleteMapping("/comment/{userId}/comment/{commentId}")
+    @DeleteMapping("/comment/{commentId}/user/{userId}")
     void deleteCommentByUser(@PathVariable Long commentId,
                              @PathVariable Long userId) {
         log.info("EWM-Server: delete comment {} by user {}", commentId, userId);
@@ -63,4 +63,11 @@ public class CommentController {
         return ResponseEntity.ok(commentService.getCommentByEventId(pageRequest, eventId, userId));
     }
 
+    @PatchMapping("comment/{comId}/user/{userId}")
+    public ResponseEntity<CommentDto> ban(@PathVariable Long comId,
+                                          @PathVariable Long userId,
+                                          @Valid @RequestBody CommentDto commentDto) {
+        log.info("EWM-Server: Change comment comId: {}, userId: {}, comment: {} ", comId, userId, commentDto);
+        return ResponseEntity.ok(commentService.change(userId, comId, commentDto));
+    }
 }

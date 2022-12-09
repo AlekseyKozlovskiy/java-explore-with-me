@@ -20,4 +20,6 @@ public interface CommentService {
 
     List<CommentDto> getCommentByEventId(PageRequest pageRequest, Long eventId, Long userId);
 
+    CommentDto change(Long userId, Long comId, CommentDto commentDto);
+
 }

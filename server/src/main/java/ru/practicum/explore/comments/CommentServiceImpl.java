@@ -18,6 +18,7 @@ import ru.practicum.explore.user.dto.UserShortDto;
 import javax.transaction.Transactional;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 import java.util.stream.Collectors;
 
 @Service
@@ -42,15 +43,22 @@ public class CommentServiceImpl implements CommentService {
         User user = userRepository.findById(userId).orElseThrow(() ->
                 new IncorrectRequest("Пользователь не найден " + userId));
         Event event = eventRepository.findById(eventId).orElseThrow(() ->
-                new IncorrectRequest("Событие не найдено " + userId));
-        if (!user.getBannedToComment() && event.getAvailabilityOfComments()) {
-            Comment comment = commentMapper.toComment(commentDto);
-            comment.setUser(userRepository.findById(userId).orElseThrow());
-            comment.setEvent(eventRepository.findById(eventId).orElseThrow());
-            return commentMapper.toCommentDto(commentRepository.save(comment));
-        } else {
-            throw new IncorrectRequest("Пользовател или событие заблокированы для комментариев");
+                new IncorrectRequest("Событие не найдено " + eventId));
+        Comment findComment = commentRepository.findByEventIdAndUserId(eventId, userId);
+        if (user.getBannedToComment()) {
+            throw new IncorrectRequest("Пользователь заблокирован для комментариев");
         }
+        if (!event.getAvailabilityOfComments()) {
+            throw new IncorrectRequest("Для события недоступны комментарии");
+        }
+        if (findComment != null) {
+            throw new IncorrectRequest("Вы уже оставляли комментарий к этому событию");
+        }
+
+        Comment comment = commentMapper.toComment(commentDto);
+        comment.setUser(user);
+        comment.setEvent(event);
+        return commentMapper.toCommentDto(commentRepository.save(comment));
     }
 
     @Override
@@ -103,5 +111,19 @@ public class CommentServiceImpl implements CommentService {
         }
         return returnedList.stream()
                 .map(commentMapper::toCommentDto).collect(Collectors.toList());
+    }
+
+    @Override
+    public CommentDto change(Long userId, Long comId, CommentDto commentDto) {
+        Comment comment = commentRepository.findById(comId).orElseThrow(() ->
+                new IncorrectRequest("Такого комментария не существует"));
+        if (Objects.equals(comment.getUser().getId(), userId)) {
+            comment.setComment(commentDto.getComment());
+        } else {
+            throw new IncorrectRequest("Нельзя менять чужой комментарий");
+        }
+
+        return commentMapper.toCommentDto(commentRepository.save(comment));
+
     }
 }
