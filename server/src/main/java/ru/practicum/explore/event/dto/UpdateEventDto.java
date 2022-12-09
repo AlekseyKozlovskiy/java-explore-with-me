@@ -13,4 +13,5 @@ public class UpdateEventDto {
     private Long participantLimit;
     private String title;
     private Location location;
+    private Boolean availabilityOfComments = true;
 }

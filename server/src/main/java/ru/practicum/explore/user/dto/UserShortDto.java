@@ -16,4 +16,7 @@ public class UserShortDto {
 
     @NotBlank
     private String name;
+
+    @NotBlank
+    private Boolean bannedToComment = false;
 }

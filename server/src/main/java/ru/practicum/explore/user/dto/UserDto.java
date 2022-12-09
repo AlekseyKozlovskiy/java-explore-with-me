@@ -27,6 +27,8 @@ public class UserDto {
     @NotBlank
     private String email;
 
+    private Boolean bannedToComment = false;
+
     @JsonCreator
     public UserDto() {
 
